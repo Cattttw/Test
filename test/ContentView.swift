@@ -8,9 +8,35 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var showingImagePicker = false
+    @State private var inputImage: UIImage?
+
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        NavigationView {
+        
+            
+            List {
+                Text("list")
+                Text("Hi")
+            }
+                .navigationTitle("Featured")
+            .toolbar {
+                Button(action: {self.showingImagePicker.toggle()}) {
+                    Image(systemName: "person.crop.circle")
+                        .accessibilityLabel("User Profile")
+                }
+            }
+            .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
+                ImagePicker(image: self.$inputImage)
+            }
+            
+        }
+    }
+    
+    func loadImage() {
+        guard let inputImage = inputImage else { return }
+        let image = Image(uiImage: inputImage)
+
     }
 }
 
